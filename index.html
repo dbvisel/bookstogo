@@ -1,0 +1,331 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!--
+
+Need to deal with Unicode better
+Clean up the form.
+
+-->
+<html>
+<head>
+  <title>Help us get rid of these books</title>
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Sorts+Mill+Goudy:400italic,400&subset=latin,latin-ext">
+  <title>take these books!</title>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+  <style type="text/css" media="all"><!--
+
+body {
+  margin:0;
+  background-color:#999999;
+  font-family:'Sorts Mill Goudy';
+}
+
+p { 
+  margin:0;
+}
+
+a {
+  text-decoration:none;
+  color:white;
+}
+
+a:hover {
+  text-decoration:underline;
+}
+
+.title a {
+  color:black;
+}
+
+
+.main {
+  width:800px;
+  padding:20px;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:20px;
+  margin-bottom:20px;
+  background:white;
+  background:rgba(255,255,255,0.95);
+  border-radius:20px;
+}
+
+.list {
+  width:800px;
+}
+
+.preface, .postface, .questions {
+  width:720px;
+  background-color:#cccccc;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:20px;
+  margin-bottom:20px;
+  padding:20px;
+  border-radius:20px;
+  border-color:white;
+  border-style:solid;
+  border-width:5px;
+  font-size:1.5em;
+}
+
+.questions {
+  background-color:goldenrod;
+  background-color:rgba(218, 165, 32, 0.5);
+}
+
+.postface {
+    text-align:center;
+    background:#728365;
+}
+
+.bookentry,.bookheader {
+  margin-left:20px;
+  padding-top:10px;
+  padding-bottom:10px;
+  margin-right:20px;
+}
+
+.bookentry + .bookentry {
+  border-top-style:solid;
+  border-top-width:1px;
+  border-top-color:#cccccc;
+}
+
+.bookcheck {
+  width:20px;
+  display:inline-block;
+}
+
+
+
+.author {
+  margin-left:20px;
+  width:180px;
+  display:inline-block;
+}
+
+.title {
+  font-style:italic;
+  margin-left:10px;
+  width:270px;
+  display:inline-block;
+}
+
+.notes {
+  font-style:normal;
+  margin-left:10px;
+  width:90px;
+  display:inline-block;
+  font-size:0.75em;
+}
+
+.isbn {
+  margin-left:10px;
+  width:140px;
+  display:inline-block;
+  text-align:right;
+  font-size:0.75em;
+}
+
+.bookheader .author {
+  font-family:"Helvetica Neue", "Helvetica", "Arial";
+  font-weight:bold;
+  font-style: normal;
+}
+
+.bookheader .title {
+  font-family:"Helvetica Neue", "Helvetica", "Arial";
+  font-weight:bold;
+  font-style: normal;
+}
+
+.bookheader .notes {
+  font-family:"Helvetica Neue", "Helvetica", "Arial";
+  font-weight:bold;
+  font-style: normal;
+  font-size:1em;
+}
+
+.bookheader .isbn {
+  font-family:"Helvetica Neue", "Helvetica", "Arial";
+  font-weight:bold;
+  font-style: normal;
+  font-size:1em;
+}
+
+.big {
+  font-size:4em;
+  text-align:center;
+}
+
+.question {
+  font-style:italic;
+  margin-bottom: 0.5em;
+  font-size:1em;
+}
+
+.answer {
+  font-style:normal;
+  margin-bottom: 1em;
+  margin-left:2em;
+  font-size:0.75em;
+}
+
+
+.input {
+  width:400px;
+  height:30px;
+  font-size:1em;
+  margin-bottom:1em;
+}
+
+.button {
+  font-size:1.5em;
+}
+
+
+ --></style>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script> 
+    <script language="javascript"><!--
+
+var output = '<div class="bookheader"><div class="bookcheck"></div><div class="author">Author</div><div class="title">Title</div><div class="notes">Notes</div><div class="isbn">ISBN</div></div>';
+
+
+function checkthatbox(checkidno) {
+  var checkid = "checkbox" + checkidno;
+  var rowid = "bookrow" + checkidno;
+  document.getElementById(checkid).checked ^= true;
+  if(document.getElementById(checkid).checked) {
+    document.getElementById(rowid).style.backgroundColor = "#ffffaa";
+  } else {
+    document.getElementById(rowid).style.backgroundColor = "transparent";
+  }
+}
+
+function checktheform() {
+  var hasname=document.forms["bookform"]["name"].value;
+  var hasemail=document.forms["bookform"]["email"].value;
+  var hasbook=document.forms["bookform"]["book[]"];
+  if (hasname==null || hasname=="") {
+    alert("Fill in your name or we won't know who you are!");
+    return false;
+  }
+  if (hasemail==null || hasemail=="") {
+    alert("Fill in your email or we won't know how to reach you!");
+    return false;
+  } else {
+    var atpos=hasemail.indexOf("@");
+    var dotpos=hasemail.lastIndexOf(".");
+    if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length) {
+      alert("Are you sure that's your real email address?");
+    return false;
+    }
+  }
+  var booksselected = 0;
+  for(i in hasbook) {
+    if(hasbook[i].checked) {
+      booksselected++;
+    }
+  }
+  if(booksselected<1) {
+    alert("Don't press this button if you don't want any books.")
+    return false;
+  }
+}
+
+
+function initialize() {
+  var jsonfile = "http://withhiddennoise.net/bookstogo/dummy.json.php?nocache=" + (new Date()).getTime();
+  $.getJSON(jsonfile, function(data) { 
+    var booklist = data.books; 
+    booklist.sort(function(a, b) {
+      var textA = a.author.toUpperCase();
+      var textB = b.author.toUpperCase();
+      return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+    });
+
+
+    for(i in booklist) {
+      var currentbook = booklist[i];
+console.log(currentbook.sold);
+      if(currentbook.sold === "") {
+
+        var formvalue = currentbook.author + ' | ' + currentbook.title + ' | ' + currentbook.isbn;
+        var amazonstring = '</div><div class="title"><a href="http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords='+escape(currentbook.author+" "+currentbook.title)+'">';
+        var currentline = '<div class="bookentry" id="bookrow'+i+'" onClick="checkthatbox('+i+');"><div class="bookcheck"><input type="checkbox" name="book[]" value="' + formvalue + '" id="checkbox'+i+'" onClick="checkthatbox('+i+');"></div><div class="author">' + currentbook.author + amazonstring + currentbook.title + '</a></div><div class="notes">' + currentbook.notes + '</div><div class="isbn">'+currentbook.isbn + '</div></div>';
+        output = output + currentline + '\n';
+      }
+    }
+    var existinglist = document.getElementById("list");
+    existinglist.innerHTML = output;
+  }).fail(function( jqxhr, textStatus, error ) {
+  var err = textStatus + ', ' + error;
+  console.log( "Request Failed: " + err);
+}); 
+}
+
+
+    --></script>
+</head>
+
+<body onLoad="initialize();">
+  <div class="main">
+
+  <form name="bookform" action="process.php" method="post" onsubmit="return checktheform()" >
+    <div class="preface">
+      <p class="big">Hi.</p>
+      <p>We are trying to get rid of a lot of books before we move to Bangkok. We would like to give some of them to you. Check the boxes next to the books that you want, enter your name and email, and we will figure out a way to give them to you.</p>
+      <p style="text-align:right;font-style:italic;">Updated July 28, 2013</p>
+    </div>
+    <div id="list">
+    </div>
+    <div class="postface">
+      <p class="big">Done?</p>
+      <p style="text-align:left;margin-bottom:1em;">Before you get your books, you need to answer two questions. After you have answered them truthfully you can press the button.</p>
+      <p>First question: what is your name?</p>
+      <p><input type="text" name="name" class="input" /></p>
+      <p>Second question: what is your email?</p>
+      <p><input type="text" name="email" class="input" /></p>
+      <p>Now press this button:<br />
+        <input type="submit" value="Request books!" class="button" /></p>
+    </div>
+    <div class="questions">
+      <p class="big">Questions?</p>
+      <p class="question">Why are you giving away these books?</p>
+      <p class="answer">Most books have basically no resale value thanks to Amazon. We thought it was nicer that the books might end up in a good home.</p>
+      <p class="question">Why are you giving away so many books?</p>
+      <p class="answer">We have so many books. You have no idea.</p>
+      <p class="question">Will I get rich off of reselling these books?</p>
+      <p class="answer">Almost certainly not, but you're welcome to try.</p>
+      <p class="question">If I request a book, does that mean that I will get it?</p>
+      <p class="answer">Not necessarily because this form isn't very smart and someone might have requested it before you.</p>
+      <p class="question">Why do you have such awful books?</p>
+      <p class="answer">That's a good question. Some of these books ended up here by mistake, some people gave us, some we have no idea where they're from. Also, tastes change.</p>
+      <p class="question">Why are you giving away a book I gave you?</p>
+      <p class="answer">We are very sorry. We have so many books.</p>
+      <p class="question">If you are giving away a book I wrote/signed/published/recommended does it mean that you don't love me?</p>
+      <p class="answer">No, it does not mean that. We are very sorry. We have so many books.</p>
+      <p class="question">Are these books any good?</p>
+      <p class="answer">Well, some of them are very good, but we have two copies. Some are nice but we've already read them & don't imagine that we'll read them again. Some just turned up by accident. Some are really terrible.</p>
+      <p class="question">How are these books being delivered?</p>
+      <p class="answer">I will give them to you in person if you are in New York, and we can find a time and place to meet up. If you're not in New York and want me to mail them, I'm happy to do that, though you'll have to pay for postage! We are not made of money because we spent it all on books.</p>
+      <p class="question">Which of these books are particularly good?</p>
+      <p class="answer">You should ask us that in person and we will try to give you the best possible book.</p>
+      <p class="question">I have a specific question about a book.</p>
+      <p class="answer">Then you should email Dan, and he will try to help you.</p>
+      <p class="question">I sent in this form and nothing happened.</p>
+      <p class="answer">Probably it is broken because it is poorly programmed. Email Dan  and he will try to help you.</p>
+      <p class="question">Where is this list of books that everyone's talking about?</p>
+      <p class="answer">If you don't see a list of books after waiting a few seconds, probably it is broken because it is poorly programmed. Email Dan at <em><a href="mailto:dbvisel@gmail.com">dbvisel@gmail.com</a></em>, and he will fix the problem.</p>
+      <p class="question">What will you do with the books that no one wants?</p>
+      <p class="answer">Probably we will give them to the Queens Library, unless you have another charity that takes donations of books that you'd like us to support.</p>
+      <p class="question">I have not received any books that I requested &amp; I am angry.</p>
+      <p class="answer">Probably the form is broken! Email Dan if you haven't heard anything from him already. It seems like it doesn't go through about half the time.</p>
+      <p class="question">Does this ridiculous system work?</p>
+      <p class="answer">Kind of? So far we have given away 159 books, which is a pretty good start. Request some books already.</p>
+
+    </div>
+  </form>
+  </div>
+</body>
+</html>
