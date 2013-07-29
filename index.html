@@ -235,7 +235,7 @@ function checktheform() {
 
 
 function initialize() {
-  var jsonfile = "http://withhiddennoise.net/bookstogo/dummy.json.php?nocache=" + (new Date()).getTime();
+  var jsonfile = "dummy.json.php?nocache=" + (new Date()).getTime();
   $.getJSON(jsonfile, function(data) { 
     var booklist = data.books; 
     booklist.sort(function(a, b) {
