@@ -29,3 +29,14 @@ When someone requests a book, an email is sent to the email address that's in *p
 
 When someone requests a book, I put their name in the first column of the Google spreadsheet; when the page loads, if there's a value in the first column, the book is not shown.
 
+Note that if the first row of your Google spreadsheet is not the header row, this will break down entirely! So be careful about that. 
+
+Credits
+-------
+
+The Google spreadsheet-to-JSON is from here:
+
+https://gist.github.com/robflaherty/1185299
+
+with very slight (and pretty obvious!) modifications. 
+
