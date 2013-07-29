@@ -66,7 +66,7 @@ a:hover {
   }
   $booklist = $list;
 
-  $to = "dbvisel@gmail.com";
+  $to = "YOUREMAIL@WHATEVER.COM";
   $subject = "Book request from " . $name;
   $message = "Name: " . $name . "\nEmail: " . $email ."\n\nBooks wanted:\n\n" . $booklist . "\n\n";
   $headers = "From:" . $email;
